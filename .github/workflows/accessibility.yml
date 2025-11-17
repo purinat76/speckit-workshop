@@ -1,0 +1,173 @@
+name: Accessibility Checks
+
+# This workflow is configured for future use when UI component testing is added
+# Currently placeholder; uncomment jobs when a11y testing infrastructure is ready
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  accessibility-audit:
+    name: Accessibility Audit
+    runs-on: ubuntu-latest
+    # Commented out until a11y testing is configured
+    # if: contains(github.event.pull_request.labels.*.name, 'ui') || github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Future: Add axe-core accessibility scanning
+      # - name: Install axe-core
+      #   run: npm install --save-dev @axe-core/playwright
+
+      # Future: Build and scan for a11y issues
+      # - name: Build app
+      #   run: npm run build
+
+      # - name: Run accessibility audit
+      #   run: |
+      #     # Run axe scan on built HTML files
+      #     # Report results and fail if critical issues found
+
+      # Placeholder check for now
+      - name: ♿ Accessibility Check Configuration
+        run: |
+          echo "Accessibility Checks - Not yet configured"
+          echo ""
+          echo "This workflow will include:"
+          echo "  ✓ axe-core automated scanning"
+          echo "  ✓ Keyboard navigation verification"
+          echo "  ✓ Color contrast checking"
+          echo "  ✓ ARIA attribute validation"
+          echo "  ✓ Screen reader compatibility tests"
+          echo ""
+          echo "To enable when ready:"
+          echo "  1. Add UI component testing framework (Playwright, Cypress)"
+          echo "  2. Configure axe-core integration"
+          echo "  3. Create a11y test suites"
+          echo "  4. Uncomment steps above"
+
+  # Check for accessibility documentation
+  a11y-documentation:
+    name: A11y Documentation Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for accessibility notes in PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = pr.labels.map(l => l.name);
+            const body = pr.body || '';
+            
+            const isUIChange = body.toLowerCase().includes('ui') || 
+                              body.toLowerCase().includes('ux') ||
+                              labels.includes('ui') ||
+                              labels.includes('accessibility');
+            
+            if (isUIChange) {
+              const hasA11yNote = body.toLowerCase().includes('accessibility') ||
+                                 body.toLowerCase().includes('a11y') ||
+                                 body.includes('♿');
+              
+              if (!hasA11yNote) {
+                core.warning('UI/UX changes detected but no accessibility impact note found. Please add a11y impact assessment to PR description.');
+              } else {
+                core.info('✓ Accessibility impact noted');
+              }
+            }
+
+---
+
+## Future Implementation Roadmap
+
+### Phase 1: Automated Scanning (Current)
+- [ ] Set up Playwright or Cypress for end-to-end testing
+- [ ] Install and configure axe-core
+- [ ] Create initial accessibility audit workflow
+
+### Phase 2: Component-Level Testing
+- [ ] Add a11y tests to component stories (if using Storybook)
+- [ ] Test keyboard navigation for interactive elements
+- [ ] Verify ARIA labels and roles
+- [ ] Test color contrast ratios
+
+### Phase 3: Manual Review Processes
+- [ ] Add accessibility checklist to PR template (✓ done in CONSTITUTION_CHECKLIST.md)
+- [ ] Create a11y review guidelines
+- [ ] Set up accessibility expert review for major UI changes
+- [ ] Create accessibility audit schedule (quarterly)
+
+### Phase 4: Monitoring & Compliance
+- [ ] Track accessibility violations over time
+- [ ] Generate compliance reports (WCAG 2.1 AA compliance)
+- [ ] Monitor real user feedback on accessibility
+- [ ] Update Constitution with a11y SLOs
+
+---
+
+## Accessibility Standards Reference
+
+### WCAG 2.1 Compliance Level: AA (Target)
+
+**Key requirements:**
+- Perceivable: All content must be accessible to users with visual, auditory, or motor disabilities
+- Operable: Navigation and functionality must work with keyboard, voice, and assistive tech
+- Understandable: Content must be clear and predictable
+- Robust: Content must work with various assistive technologies
+
+### Tools & Frameworks
+
+**Automated Testing:**
+- [axe-core](https://github.com/dequelabs/axe-core) — Accessibility testing engine
+- [axe DevTools](https://www.deque.com/axe/devtools/) — Browser extension for manual testing
+- [WAVE](https://wave.webaim.org/) — Web accessibility evaluation tool
+
+**Manual Testing:**
+- Screen readers: NVDA (Windows), JAWS (Windows/Mac), VoiceOver (Mac/iOS)
+- Keyboard-only navigation (Tab, Shift+Tab, Enter, Space, arrows)
+- Color contrast checking with [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+
+**Component Testing:**
+- Test focus indicators visible and logical
+- Test ARIA labels, roles, and states
+- Test keyboard shortcuts and shortcuts
+- Test with zoom and text scaling
+
+---
+
+## Accessibility Checklist for Reviewers
+
+When reviewing UI changes, check:
+
+- [ ] **Keyboard Navigation:** Can all interactive elements be accessed via keyboard?
+- [ ] **Focus Indicators:** Is focus clearly visible with a distinct outline or highlight?
+- [ ] **ARIA Labels:** Are interactive elements properly labeled for screen readers?
+- [ ] **Color Contrast:** Is text readable with at least 4.5:1 contrast ratio?
+- [ ] **Form Labels:** Are form inputs associated with descriptive labels?
+- [ ] **Error Messages:** Are validation errors clearly tied to the fields?
+- [ ] **Alt Text:** Do images have descriptive alt text (when applicable)?
+- [ ] **Responsive Design:** Does layout remain usable at 200% zoom?
+- [ ] **Motion:** Are animations not auto-playing or distracting?
+
+---
+
+## Related Documents
+
+- [CONSTITUTION.md](../../CONSTITUTION.md) - Section 3: UX Consistency (includes a11y)
+- [CONSTITUTION_CHECKLIST.md](./CONSTITUTION_CHECKLIST.md) - UX & Accessibility Review section
+

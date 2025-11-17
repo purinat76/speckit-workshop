@@ -1,0 +1,289 @@
+/**
+ * Layout and card styles
+ */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, var(--card), #f3f4f6);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.album-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: #111;
+}
+
+.app-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg);
+  border-color: var(--accent);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.grouping-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f0f7ff;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-size: 13px;
+  color: #064e3b;
+  margin-bottom: 8px;
+}
+
+.grouping-hint strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.groups-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+.group-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  text-transform: capitalize;
+}
+
+.group-count {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.album-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.album-list.drag-over {
+  background: rgba(37, 99, 235, 0.05);
+  outline: 2px dashed rgba(37, 99, 235, 0.3);
+}
+
+.album-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: grab;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.album-card:hover:not(.dragging) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent);
+}
+
+.album-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.album-card.drag-target {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.album-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #111;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  min-height: 48px;
+}
+
+.album-tile {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.album-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.album-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 4px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.photo-count {
+  font-weight: 500;
+}
+
+.album-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.album-card:hover .album-actions {
+  opacity: 1;
+}
+
+.album-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.album-btn:hover {
+  background: var(--bg);
+  color: var(--accent);
+  border-color: var(--border);
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  opacity: 0.3;
+}
+
+.empty-state-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.empty-state-hint {
+  font-size: 13px;
+  color: #999;
+  max-width: 400px;
+}
